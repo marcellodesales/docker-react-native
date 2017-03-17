@@ -9,10 +9,31 @@ MAINTAINER Maxime Demolin <akbarova.armia@gmail.com>
 ENV PATH $PATH:node_modules/.bin
 
 
-# Install Java
-RUN apt-get update -q && \
-	apt-get install -qy --no-install-recommends python-dev default-jdk
+ENV LC_ALL C
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 
+# Utilities
+RUN apt-get update && apt-get -y install software-properties-common unzip python-dev
+
+# Grab new versions from https://gist.github.com/P7h/9741922
+ENV JAVA_VERSION 8u121-b13/jdk-8u121
+
+# Install Java.
+RUN apt-get update \
+    && apt-get install -y wget openssl ca-certificates \
+    && cd /tmp \
+    && wget -qO jdk8.tar.gz \
+       --header "Cookie: oraclelicense=accept-securebackup-cookie" \
+       http://download.oracle.com/otn-pub/java/jdk/8u111-b14/jdk-8u111-linux-x64.tar.gz \
+    && tar xzf jdk8.tar.gz -C /opt \
+    && mv /opt/jdk* /opt/java \
+    && rm /tmp/jdk8.tar.gz \
+    && update-alternatives --install /usr/bin/java java /opt/java/bin/java 100 \
+    && update-alternatives --install /usr/bin/javac javac /opt/java/bin/javac 100
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /opt/java
 
 # Install Android SDK
 
@@ -48,6 +69,8 @@ RUN npm install -g yarn
 
 ## Install react native
 RUN npm install -g react-native-cli@1.0.0
+
+RUN apt-get install -y python-dev
 
 ## Clean up when done
 RUN apt-get clean && \

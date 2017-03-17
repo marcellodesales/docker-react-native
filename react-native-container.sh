@@ -31,4 +31,4 @@ docker run \
        --net host \
        -e DISPLAY="$DISPLAY" \
        --name $CONTAINER_NAME \
-       react-native /bin/bash
+       react-native-develop /bin/bash

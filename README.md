@@ -33,7 +33,6 @@ Connect to container and install missing packages
 > cd MyAwesomeProjet
 > react-native-container.sh
 
-dev> cd node_modules/react-native/
 dev> yarn
 ```
 
@@ -43,7 +42,7 @@ Inside container:
 ```
 dev> adb reverse tcp:8081 tcp:8081 # you'll need android > 5.1 for this
 dev> react-native start > react-start.log 2>&1 &
-dev> react-native android
+dev> chmod 755 android/gradlew
 dev> react-native run-android
 ```
 

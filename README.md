@@ -11,12 +11,12 @@ Usual clone and image install:
 > git clone https://github.com/MaximeD/docker-react-native
 > cd docker-react-native
 
-> docker build -t react-native .
+> docker build -t react-native-develop .
 ```
 
 Next you will need to have the two scripts available in your path. For example you can edit your `.bashrc` and add:
 ```
-export PATH="$HOME/docker-react-native:$PATH"
+export PATH="$(pwd):$PATH"
 ```
 
 ## Create a new react native project
